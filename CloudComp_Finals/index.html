@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoodnessGracious - E-Commerce Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght=300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/store-style.css">
+</head>
+<body>
+
+    <div id="authModule" class="auth-container">
+        <div id="authSidePanel" class="auth-side-panel">
+            <h2 id="sidePanelTitle">New here?</h2>
+            <p id="sidePanelDesc">Sign up now to start tracking your orders and shopping smart!</p>
+            <button id="sidePanelBtn" class="auth-btn-outline" onclick="toggleCustomerAuthMode()">Sign Up</button>
+        </div>
+
+        <div class="auth-form-panel">
+            <div class="brand-header">
+                <div class="brand-logo"><i class="fa-solid fa-bag-shopping"></i></div>
+                <div class="brand-name">GoodnessGracious</div>
+            </div>
+
+            <div id="customerLoginUI" class="form-wrapper">
+                <h1>Welcome Back!</h1>
+                <p class="form-subtitle">Log in to your customer account</p>
+                <div class="social-login">
+                    <a href="#" class="social-icon"><i class="fa-brands fa-google"></i></a>
+                    <a href="#" class="social-icon"><i class="fa-brands fa-facebook-f"></i></a>
+                </div>
+                <div class="divider">or use your email account</div>
+                <form onsubmit="handleAuthSubmit(event, 'customer')">
+                    <div class="input-group">
+                        <input type="email" id="loginEmail" placeholder="Email Address" value="janedoe@email.com" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" placeholder="Password" value="password123" required>
+                        <i class="fa-regular fa-eye-slash password-toggle"></i>
+                    </div>
+                    <a href="#" class="forgot-pass">Forgot password?</a>
+                    <button type="submit" class="auth-submit-btn">Log In</button>
+                </form>
+                <div class="switch-role-trigger">
+                    Are you a seller? <span onclick="switchRoleView('admin')">Access Seller Portal</span>
+                </div>
+            </div>
+
+            <div id="customerSignUpUI" class="form-wrapper hidden">
+                <h1>Create Account</h1>
+                <p class="form-subtitle">Join us today to start shopping smart</p>
+                <form onsubmit="handleAuthSubmit(event, 'customer')">
+                    <div class="input-group">
+                        <input type="text" placeholder="Full Name" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="email" placeholder="Email Address" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" placeholder="Password" required>
+                    </div>
+                    <button type="submit" class="auth-submit-btn">Register</button>
+                </form>
+                <div class="switch-role-trigger">
+                    Are you a seller? <span onclick="switchRoleView('admin')">Access Seller Portal</span>
+                </div>
+            </div>
+
+            <div id="adminPortalUI" class="form-wrapper hidden">
+                <h1>Seller Workspace</h1>
+                <p class="form-subtitle">Authorized personnel access only</p>
+                <form onsubmit="handleAuthSubmit(event, 'admin')">
+                    <div class="input-group">
+                        <input type="text" placeholder="Admin No." required>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" placeholder="Secure Password" required>
+                        <i class="fa-regular fa-eye-slash password-toggle"></i>
+                    </div>
+                    <button type="submit" class="auth-submit-btn admin-theme-btn">Verify & Enter</button>
+                </form>
+                <div class="switch-role-trigger">
+                    Back to store? <span onclick="switchRoleView('customer')">Customer Log In</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="customerStorefrontView" class="app-container">
+        <nav class="store-navbar">
+            <div class="brand-header-inline" onclick="navigateToTab('catalog')" style="cursor: pointer;">
+                <div class="brand-logo"><i class="fa-solid fa-bag-shopping"></i></div>
+                <div class="brand-name">GoodnessGracious</div>
+            </div>
+            <div class="search-bar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search for products, brands...">
+            </div>
+            <div class="nav-actions">
+                <div class="nav-icon-badge" onclick="toggleSlidePanel('wishlistPanel')">
+                    <i class="fa-solid fa-heart"></i>
+                    <span id="wishlistCount">0</span>
+                </div>
+                <div class="nav-icon-badge" onclick="toggleSlidePanel('cartPanel')">
+                    <i class="fa-solid fa-basket-shopping"></i>
+                    <span id="cartCount">0</span>
+                </div>
+                
+                <div class="profile-container">
+                    <div class="profile-pill-trigger" onclick="toggleProfileDropdown(event)">
+                        <div class="profile-avatar-box" id="navAvatar">J</div>
+                        <span class="profile-display-name" id="navDisplayName">Jane Doe</span>
+                        <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
+                    </div>
+                    
+                    <div id="profileDropdown" class="profile-dropdown">
+                        <div class="dropdown-header">
+                            <p class="user-name" id="dropdownName">Jane Doe</p>
+                            <p class="user-email" id="dropdownEmail">janedoe@email.com</p>
+                        </div>
+                        <hr class="dropdown-divider">
+                        <button class="dropdown-item" onclick="navigateToTab('profile')"><i class="fa-regular fa-user"></i> My Profile</button>
+                        <button class="dropdown-item" onclick="navigateToTab('orders')"><i class="fa-solid fa-box-open"></i> Order History</button>
+                        <hr class="dropdown-divider">
+                        <button class="dropdown-item logout-trigger" onclick="exitToAuthScreen()">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <main class="store-main-viewport">
+            
+            <div id="tabCatalog" class="tab-view">
+                <div class="categories-ribbon">
+                    <button class="category-pill active" onclick="filterCategory('all')">All Products</button>
+                    <button class="category-pill" onclick="filterCategory('apparel')"><i class="fa-solid fa-shirt"></i> Apparel</button>
+                    <button class="category-pill" onclick="filterCategory('accessories')"><i class="fa-solid fa-gem"></i> Accessories</button>
+                    <button class="category-pill" onclick="filterCategory('footwear')"><i class="fa-solid fa-shoe-prints"></i> Footwear</button>
+                    <button class="category-pill" onclick="filterCategory('cosmetics')"><i class="fa-solid fa-wand-magic-sparkles"></i> Cosmetics</button>
+                </div>
+
+                <header class="store-hero">
+                    <div class="hero-text">
+                        <h4>Summer Arrival</h4>
+                        <h1>Fresh Trends<br>For Everyone</h1>
+                        <button class="hero-btn" onclick="filterCategory('all')">Explore Store</button>
+                    </div>
+                    <div class="hero-img-placeholder">
+                        <i class="fa-solid fa-image fa-4x"></i>
+                    </div>
+                </header>
+
+                <div class="section-title"><h2>Trending Best Sellers</h2></div>
+                <div class="products-grid" id="storefrontGrid">
+                    </div>
+            </div>
+
+            <div id="tabProfile" class="tab-view hidden">
+                <div class="sub-view-container">
+                    <div class="view-header">
+                        <h2>My Profile Management</h2>
+                        <p>Keep your contact credentials and home delivery destination updated.</p>
+                    </div>
+                    
+                    <div class="profile-dashboard-card">
+                        <div class="profile-edit-avatar-section">
+                            <div class="large-profile-avatar" id="profileBigAvatar">J</div>
+                            <div>
+                                <h3 id="profileSummaryName">Jane Doe</h3>
+                                <p id="profileSummaryEmail">janedoe@email.com</p>
+                            </div>
+                        </div>
+                        
+                        <form id="profileUpdateForm" onsubmit="saveProfileChanges(event)" class="profile-grid-form">
+                            <div class="form-row-two-col">
+                                <div class="form-field">
+                                    <label>Account Full Name</label>
+                                    <input type="text" id="profName" value="Jane Doe" required>
+                                </div>
+                                <div class="form-field">
+                                    <label>Email Address</label>
+                                    <input type="email" id="profEmail" value="janedoe@email.com" required>
+                                </div>
+                            </div>
+                            <div class="form-row-two-col">
+                                <div class="form-field">
+                                    <label>Mobile Line Number</label>
+                                    <input type="text" id="profPhone" value="+63 917 123 4567">
+                                </div>
+                                <div class="form-field">
+                                    <label>Default Payment Method</label>
+                                    <select id="profPayment">
+                                        <option value="cod">Cash on Delivery (COD)</option>
+                                        <option value="gcash">GCash Digital Wallet</option>
+                                        <option value="card">Credit / Debit Card</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="address-ledger-section">
+                                <div class="address-section-header">
+                                    <label><i class="fa-solid fa-map-location-dot"></i> Shipping Addresses</label>
+                                    <button type="button" class="add-address-trigger-btn" onclick="openAddressModal()">
+                                        <i class="fa-solid fa-plus"></i> Add New Address
+                                    </button>
+                                </div>
+                                
+                                <div id="addressBookContainer" class="address-cards-stack">
+                                    </div>
+                            </div>
+                            
+                            <div class="profile-action-row">
+                                <button type="button" class="btn-secondary" onclick="navigateToTab('catalog')">Cancel</button>
+                                <button type="submit" class="btn-primary">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tabOrders" class="tab-view hidden">
+                <div class="sub-view-container">
+                    <div class="view-header">
+                        <h2>Order Tracking History</h2>
+                        <p>Monitor your current pending deliveries or review statements of previous completed orders.</p>
+                    </div>
+                    
+                    <div class="orders-history-matrix" id="ordersListContainer">
+                        </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <div id="addressModal" class="modal-wrapper">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Add Delivery Address</h3>
+                <button type="button" class="modal-close-btn" onclick="closeAddressModal()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form id="addressEntryForm" onsubmit="handleNewAddressSubmit(event)">
+                <div class="form-field margin-bottom-sm">
+                    <label>Label / Title</label>
+                    <input type="text" id="addrLabel" placeholder="e.g., Home, Office, Condominium" required>
+                </div>
+                <div class="form-field margin-bottom-sm">
+                    <label>Recipient's Full Name</label>
+                    <input type="text" id="addrReceiver" placeholder="Name of person receiving packages" required>
+                </div>
+                <div class="form-field margin-bottom-sm">
+                    <label>Contact Phone Number</label>
+                    <input type="text" id="addrPhone" placeholder="Mobile line number" required>
+                </div>
+                <div class="form-field margin-bottom-sm">
+                    <label>Street Address & Landmark</label>
+                    <input type="text" id="addrDetails" placeholder="House No., Street Name, Barangay, Apartment Unit" required>
+                </div>
+                <div class="form-row-two-col margin-bottom-md">
+                    <div class="form-field">
+                        <label>City / Municipality</label>
+                        <input type="text" id="addrCity" placeholder="City" required>
+                    </div>
+                    <div class="form-field">
+                        <label>Zip Code</label>
+                        <input type="text" id="addrZip" placeholder="Postal Code" required>
+                    </div>
+                </div>
+                <div class="checkbox-field-row">
+                    <input type="checkbox" id="addrDefaultCheck">
+                    <label for="addrDefaultCheck">Set as primary default shipping address</label>
+                </div>
+                <div class="modal-footer-actions">
+                    <button type="button" class="btn-secondary" onclick="closeAddressModal()">Cancel</button>
+                    <button type="submit" class="btn-primary">Add Address</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="panelOverlay" class="panel-overlay" onclick="closeAllPanels()"></div>
+
+    <div id="cartPanel" class="slide-panel">
+        <div class="panel-header">
+            <h3>Your Cart (<span id="cartHeaderCount">0</span>)</h3>
+            <button class="panel-close-btn" onclick="toggleSlidePanel('cartPanel')"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="panel-body" id="cartPanelItems">
+            </div>
+        <div class="panel-footer">
+            <div class="summary-row">
+                <span>Subtotal:</span>
+                <span id="cartSubtotal">₱0.00</span>
+            </div>
+            <button class="checkout-btn" onclick="triggerMockCheckout()">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <div id="wishlistPanel" class="slide-panel">
+        <div class="panel-header">
+            <h3>Your Favorites</h3>
+            <button class="panel-close-btn" onclick="toggleSlidePanel('wishlistPanel')"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="panel-body" id="wishlistPanelItems">
+            </div>
+    </div>
+
+    <script src="js/store.js"></script>
+</body>
+</html>
